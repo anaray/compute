@@ -3,7 +3,7 @@ compute
 (status: initial commits, work-in-progress)
 Create computes, chain them, in order to a create complex compuation workflow
 
-A simple example:
+A simple example: chaining udplistener -> uppercase -> stdout 
 ```
 package main
 
