@@ -7,7 +7,7 @@ A simple example: chaining udplistener -> uppercase -> stdout
 ```
 package main
 
-import ("plugins")
+import ("compute")
 
 func main() {
 	plugins.Run(plugins.UDPListener(), plugins.UpperCase(), plugins.Stdout())
