@@ -1,6 +1,5 @@
 package compute
 
-
 type Args struct {
 	Incoming chan string
 	Outgoing chan string
@@ -9,7 +8,6 @@ type Args struct {
 type Plugins interface {
 	Execute(Args)
 }
-
 
 func Run(plugins ...Plugins) {
 	//done := make()
@@ -25,9 +23,8 @@ func Run(plugins ...Plugins) {
 		indx += 1
 	}
 
-
 	for { //i := 0; i < 100; i++ {
-		_=<-in
+		_ = <-in
 		//fmt.Println(output)
 	}
 
