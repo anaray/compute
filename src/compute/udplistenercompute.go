@@ -22,7 +22,7 @@ func (p *UDPListenerPlugin) Execute(arg Args) {
 	for {
 		buffer := make([]byte, 1024)
 		if c, addr, err := conn.ReadFromUDP(buffer); err != nil {
-			log.Printf("blergh: %d byte datagram from %s with error %s\n", c, addr.String(), err.Error())
+			log.Printf("error: %d byte datagram from %s with error %s\n", c, addr.String(), err.Error())
 			return
 
 		} else {
