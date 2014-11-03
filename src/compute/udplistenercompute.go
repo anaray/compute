@@ -26,7 +26,6 @@ func (p *UDPListenerPlugin) Execute(arg Args) {
 			return
 
 		} else {
-			//fmt.Println(string(buffer[:c]))
 			arg.Outgoing <- string(buffer[:c])
 		}
 	}
