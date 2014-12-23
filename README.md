@@ -14,6 +14,17 @@ func main() {
 }
 ```
 
+another example: chaining twitter_listener -> sentiment_analyzer -> push_to_visualizer 
+```
+package main
+
+import ("compute")
+
+func main() {
+	compute.Run(TwitterListener(), SentimentAnalyzer(), Visualize())
+}
+```
+
 Design Goals:
 
 1. capability to create/initialize computes in different physical machines.
