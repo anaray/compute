@@ -10,7 +10,7 @@ package main
 import ("compute")
 
 func main() {
-	plugins.Run(plugins.UDPListener(), plugins.UpperCase(), plugins.Stdout())
+	compute.Run(UDPListener(), UpperCase(), Stdout())
 }
 ```
 
