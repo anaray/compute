@@ -2,11 +2,14 @@ package compute
 
 import (
 	"os"
+	"sync"
+	//"github.com/BurntSushi/toml"
 )
 
 type Args struct {
 	Incoming chan Packet
 	Outgoing chan Packet
+	WaitGroup *sync.WaitGroup
 	//Done chan bool
 	Container map[string]interface{}
 	Logger    *Log
@@ -23,23 +26,27 @@ func Run(computes ...Computes) {
 	//done := make()
 	in := make(chan Packet, 10000)
 	logger := Logger(os.Stdout)
-	logger.logf("Initializing Compute ...")
+	var wg sync.WaitGroup
+	var arg Args
+	var args  []Args
+	logger.Logf("Initializing Compute ...")
 	//done := make(chan bool)
 	var indx = 1
-	for _, compute := range computes {
+	for i := 0; i < len(computes); i++ {
 		out := make(chan Packet, 10000)
-		arg := Args{Incoming: in, Outgoing: out, Logger: logger}
-		//for i := 0; i < indx; i++ {
-		logger.logf("Initializing Compute: %s", compute.String())
-		go compute.Execute(&arg)
-		//}
+		arg = Args{Incoming: in, Outgoing: out, Logger: logger, WaitGroup: &wg}
+		args = append(args, arg)
 		in = out
-		indx += 1
+		indx += 1	
 	}
 
-	for {
-		_ = <-in
+	for indx, compute := range computes {
+		arg.WaitGroup.Add(1)
+		logger.Logf("Initializing Compute: %s", compute.String())
+		go compute.Execute(&args[indx])
 	}
+
+	arg.WaitGroup.Wait()
 }
 
 func NewPacket() Packet {
