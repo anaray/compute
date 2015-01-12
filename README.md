@@ -42,4 +42,4 @@ Writing a compute:
 	3. Container to put configurations.
 	4. a Logger.
 
-
+For example: https://github.com/anaray/compute/blob/master/compute_test.go
