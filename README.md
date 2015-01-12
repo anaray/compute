@@ -31,14 +31,15 @@ Design Goals:
 2. capability to create multiple instances of same computes in order to accomodate load(fan-in or fan-out).
 
 Writing a compute:
+
 1. Define a Compute struct.
 2. Have a initializer function.
-3. Have the struct implement Computes interface
-4. Args argument in Execute method provides 
-	a) Incoming channel
-	b) Outgoing channel
-	c) a WaitGroup
-	d) Container to put configurations.
-	e) a Logger
+3. Have the struct implement Computes interface.
+4. Args argument in Execute method provides.
+	1. Incoming channel.
+	2. Outgoing channel.
+	2. a WaitGroup.
+	3. Container to put configurations.
+	4. a Logger.
 
 
