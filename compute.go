@@ -7,10 +7,10 @@ import (
 )
 
 type Args struct {
-	Incoming chan Packet
-	Outgoing chan Packet
+	Incoming  chan Packet
+	Outgoing  chan Packet
 	WaitGroup *sync.WaitGroup
-	Store *Cache
+	Store     *Cache
 	Logger    *Log
 }
 
@@ -26,7 +26,7 @@ func Run(computes ...Computes) {
 	logger := Logger(os.Stdout)
 	var wg sync.WaitGroup
 	var arg Args
-	var args  []Args
+	var args []Args
 	cache := NewCache()
 
 	logger.Logf("Initializing Compute ...")
@@ -50,25 +50,25 @@ func NewPacket() Packet {
 }
 
 type Cache struct {
-  items map[string]interface{}
-  lock *sync.RWMutex
+	items map[string]interface{}
+	lock  *sync.RWMutex
 }
 
 func NewCache() *Cache {
-  return &Cache {
-    items: make(map[string]interface{}, 1024),
-    lock: new(sync.RWMutex),
-  }
+	return &Cache{
+		items: make(map[string]interface{}, 1024),
+		lock:  new(sync.RWMutex),
+	}
 }
 
 func (c *Cache) Add(key string, item interface{}) {
-  c.lock.Lock()
-  defer c.lock.Unlock()
-  c.items[key] = item
+	c.lock.Lock()
+	defer c.lock.Unlock()
+	c.items[key] = item
 }
 
 func (c *Cache) Get(key string) interface{} {
-  c.lock.RLock()
-  defer c.lock.RUnlock()
-  return c.items[key]
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+	return c.items[key]
 }
