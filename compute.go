@@ -3,6 +3,7 @@ package compute
 import (
 	"os"
 	"sync"
+	"runtime"
 	//"github.com/BurntSushi/toml"
 )
 
@@ -22,6 +23,8 @@ type Computes interface {
 type Packet map[string]interface{}
 
 func Run(computes ...Computes) {
+	ncpu := runtime.NumCPU()
+	runtime.GOMAXPROCS(ncpu)
 	in := make(chan Packet, 100000)
 	logger := Logger(os.Stdout)
 	var wg sync.WaitGroup
