@@ -22,6 +22,26 @@ func (lw *LogWatcher) string() string {
 }
 
 func (lw *LogWatcher) Execute(arg *compute.Args) {
+	r, _ := regexp.Compile("client_(.*).log")
+	//folder := "/home/suresh/official/arb/poc/MetricStream_EGRCP/SYSTEMi/Systemi/log/"
+	folder <- arg.Incoming
+
+	nc := make(chan string)
+
+	go func() {
+		for event := range nc {
+			fmt.Println("tailing file ", event)
+			if r.MatchString(filepath.Base(event)) {
+				Watch(event)
+			}
+		}
+	}()
+	notifier := NewNotifier(nc, folder)
+	notifier.Watch()
+
+}
+
+func Watch(file string) {
 	go func() {
 		var lg *Logs
 		for {
@@ -49,19 +69,6 @@ func (lw *LogWatcher) Execute(arg *compute.Args) {
 	}()
 }
 
-func Watch(file string) {
-	go func() {
-
-		for {
-			t, _ := tail.TailFile(file, tail.Config{Follow: true, Location: &tail.SeekInfo{0, os.SEEK_END}})
-			for line := range t.Lines {
-				fmt.Println(line.Text)
-			}
-
-		}
-	}()
-}
-
 func NewLog(line []byte) *Logs {
 	log := new(Logs)
 	log.Store = string(line)
@@ -74,19 +81,6 @@ type Logs struct {
 
 func main() {
 	var input string
-	r, _ := regexp.Compile("client_(.*).log")
-	folder := "/home/suresh/official/arb/poc/MetricStream_EGRCP/SYSTEMi/Systemi/log/"
-	nc := make(chan string)
-	go func() {
-		for event := range nc {
-			fmt.Println("tailing file ", event)
-			if r.MatchString(filepath.Base(event)) {
-				Watch(event)
-			}
-		}
-	}()
-	notifier := NewNotifier(nc, folder)
-	notifier.Watch()
 	fmt.Scanln(&input)
 	fmt.Println("Exit")
 }
