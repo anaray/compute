@@ -25,7 +25,7 @@ type Packet map[string]interface{}
 func Run(computes ...Computes) {
 	ncpu := runtime.NumCPU()
 	runtime.GOMAXPROCS(ncpu)
-	in := make(chan Packet, 100000)
+	in := make(chan Packet, 100)
 	logger := Logger(os.Stdout)
 	var wg sync.WaitGroup
 	var arg Args
@@ -34,7 +34,7 @@ func Run(computes ...Computes) {
 
 	logger.Logf("Initializing Compute ...")
 	for i := 0; i < len(computes); i++ {
-		out := make(chan Packet, 100000)
+		out := make(chan Packet, 100)
 		arg = Args{Incoming: in, Outgoing: out, WaitGroup: &wg, Store: cache, Logger: logger}
 		args = append(args, arg)
 		in = out
