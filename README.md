@@ -29,7 +29,6 @@ Design Goals:
 
 1. capability to create/initialize computes in different physical machines.
 2. capability to create multiple instances of same computes in order to accomodate load(fan-in or fan-out).
-3. Need a Consensus algorithm support (RAFT https://raftconsensus.github.io/) when working in distributed mode with multiple instances ? 
 
 Writing a compute:
 
